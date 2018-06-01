@@ -42,23 +42,27 @@
 		<br> Step 2: Add each individual/single digit
 		<br> Step 3: If the sum modulo 10 is equal to 0 (total ends in zero), then the number is valid.
 		<br>
-		<br> For example, to validate the primary account number 49927398716:
+		<br> For example, to validate the primary account number 371449635398431:
 		<br> Step 1:
 		<br>
 		<table>
 			<tr>
 				<td>CC #</td>
+				<td>3</td>
+				<td>7</td>
+				<td>1</td>
+				<td>4</td>
 				<td>4</td>
 				<td>9</td>
-				<td>9</td>
-				<td>2</td>
-				<td>7</td>
+				<td>6</td>
+				<td>3</td>
+				<td>5</td>
 				<td>3</td>
 				<td>9</td>
 				<td>8</td>
-				<td>7</td>
+				<td>4</td>
+				<td>3</td>
 				<td>1</td>
-				<td>6</td>
 			</tr>
 			<tr>
 				<td>Double every 2nd number (RTL)</td>
@@ -73,27 +77,33 @@
 				<td></td>
 				<td>x2</td>
 				<td></td>
+				<td>x2</td>
+				<td></td>
+				<td>x2</td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>Result</td>
+				<td>3</td>
+				<td>14</td>
+				<td>1</td>
+				<td>8</td>
 				<td>4</td>
 				<td>18</td>
-				<td>9</td>
-				<td>4</td>
-				<td>7</td>
+				<td>6</td>
+				<td>6</td>
+				<td>5</td>
 				<td>6</td>
 				<td>9</td>
 				<td>16</td>
-				<td>7</td>
-				<td>2</td>
+				<td>4</td>
 				<td>6</td>
+				<td>1</td>
 			</tr>
 		</table>
-		New number: 4189476916726
-		<br> Step 2: 4 +(1+8)+ 9 + (4) + 7 + (6) + 9 +(1+6) + 7 + (2) + 6
-		<br> Step 3: Sum = 70 : Card number is validated
-		<br> Note: Card is valid because 70 mod 10 = 0 (70 ends in 0)
-		<br>
+		New number: 314184186656916461
+		<br> Step 2: 3 + (1+4) + 1 + (8) + 4 + (1+8) + 6 + (6) + 5 + (6) + 9 + (1+6) + 4 + (6) + 1
+		<br> Step 3: Sum = 80; 80 mod 10 = 0 (80 ends in 0); Card number is valid.
 	</p>
 
 	<h2>Data Input</h2>
