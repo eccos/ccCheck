@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Credit Card Check</title>
+	<style>
+		html {
+			font-family: 'segoe ui';
+		}
+
+		.panel {
+			display: inline-block;
+			width: auto;
+			height: auto;
+			box-shadow: 5px 5px 5px #ccc;
+			margin: 5px;
+			padding: 10px;
+			border: solid 1px #ccc;
+			border-radius: 5px;
+		}
+
+		td {
+			border: 1px solid black;
+			padding: 5px;
+		}
+	</style>
+	<script src="ccCheck.js"></script>
+</head>
+
+<body>
+	<h1>Credit Card Check</h1>
+
+	<h2>Description</h2>
+	<p>
+		This check performs the following actions to validate credit card numbers:
+		<br> LUHN Formula (Mod 10) for Validation of Primary Account Number
+		<br> The following steps are required to validate the primary account number:
+		<br> Step 1: Double every second digit from right to left
+		<br> Step 2: Add each individual/single digit
+		<br> Step 3: If the sum modulo 10 is equal to 0 (total ends in zero), then the number is valid.
+		<br>
+		<br> For example, to validate the primary account number 371449635398431:
+		<br> Step 1:
+		<br>
+		<table>
+			<tr>
+				<td>CC #</td>
+				<td>3</td>
+				<td>7</td>
+				<td>1</td>
+				<td>4</td>
+				<td>4</td>
+				<td>9</td>
+				<td>6</td>
+				<td>3</td>
+				<td>5</td>
+				<td>3</td>
+				<td>9</td>
+				<td>8</td>
+				<td>4</td>
+				<td>3</td>
+				<td>1</td>
+			</tr>
+			<tr>
+				<td>Double every 2nd number (RTL)</td>
+				<td></td>
+				<td>x2</td>
+				<td></td>
+				<td>x2</td>
+				<td></td>
+				<td>x2</td>
+				<td></td>
+				<td>x2</td>
+				<td></td>
+				<td>x2</td>
+				<td></td>
+				<td>x2</td>
+				<td></td>
+				<td>x2</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Result</td>
+				<td>3</td>
+				<td>14</td>
+				<td>1</td>
+				<td>8</td>
+				<td>4</td>
+				<td>18</td>
+				<td>6</td>
+				<td>6</td>
+				<td>5</td>
+				<td>6</td>
+				<td>9</td>
+				<td>16</td>
+				<td>4</td>
+				<td>6</td>
+				<td>1</td>
+			</tr>
+		</table>
+		New number: 314184186656916461
+		<br> Step 2: 3 + (1+4) + 1 + (8) + 4 + (1+8) + 6 + (6) + 5 + (6) + 9 + (1+6) + 4 + (6) + 1
+		<br> Step 3: Sum = 80; 80 mod 10 = 0 (80 ends in 0); Card number is valid.
+	</p>
+
+	<h2>Data Input</h2>
+	<p id="CCValidatorRes"></p>
+
+	<label for="CC">
+		Credit Card # (separated by commas)
+	</label>
+	<br>
+	<textarea id="CCBulk" rows="10" cols="50" placeholder="Credit Card #s separated by commas" autofocus></textarea>
+
+	<p>
+		<em>Note: A green shadow means the credit card number passed the check. Red = failure.</em>
+	</p>
+
+	<p id="ccOut"></p>
+
+	<div id="logs"></div>
+</body>
+
+</html>
