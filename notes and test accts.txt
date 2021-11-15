@@ -6,9 +6,9 @@
 • China Union Pay 62xxxx
 • JCB: 35xxxx 
 
-Requirement <Start of Credit Card Payments –0070>
+Requirement
 Credit Card numbers should be validated against the industry standard credit card check digit algorithm.
-NOTE Diner and JCB Credit Cards will NOT be considered to be a valid form of payment at this time.
+NOTE: Diner and JCB Credit Cards will NOT be considered to be a valid form of payment.
 
 
 Testing accounts
