@@ -21,26 +21,25 @@ const ccResults = document.querySelector("#cc-results");
 
 ccTextarea.addEventListener("input", ({ target: { value } }) => {
     ccResults.innerHTML = "";
-    customValidateCCs(value);
+    const ccObjs = parseNums(value, ",");
+    ccObjs.forEach(ccObj => {
+        const panel = createPanelOfCreditCardValidation(ccObj)
+        ccResults.appendChild(panel);
+    });
 });
 
-function customValidateCCs(ccIn) {
-    // extension of "validateCC" loops through objects and logs to screen
-    const ccObjs = parseNums(ccIn, ",");
-
-    for (const ccObj of ccObjs) {
-        const panel = document.createElement("div");
-        panel.className = "panel";
-
-        if (ccObj.isValid) {
-            panel.style.boxShadow = "5px 5px 5px #9f9";
-        } else {
-            panel.style.boxShadow = "5px 5px 5px #f99";
-        }
-
-        panel.innerHTML = JSON.stringify(ccObj, null, "<br>");
-        ccResults.appendChild(panel);
+function createPanelOfCreditCardValidation(ccObj) {
+    const panel = document.createElement("div");
+    
+    panel.className = "panel";
+    if (ccObj.isValid) {
+        panel.classList.add("valid-cc");
+    } else {
+        panel.classList.add("invalid-cc");
     }
+    panel.innerHTML = JSON.stringify(ccObj, null, "<br>");
+
+    return panel;
 }
 
 function parseNums(nums, separator) {
