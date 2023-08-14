@@ -1,0 +1,18 @@
+.panel {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    box-shadow: 5px 5px 5px #ccc;
+    margin: 5px;
+    padding: 10px;
+    border: solid 1px #ccc;
+    border-radius: 5px;
+}
+
+.valid-cc {
+    box-shadow: 5px 5px 5px #9f9;
+}
+
+.invalid-cc {
+    box-shadow: 5px 5px 5px #f99;
+}
