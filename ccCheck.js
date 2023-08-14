@@ -19,43 +19,27 @@ Note: Card is valid because 70 mod 10 = 0 (70 ends in 0)
 const ccTextarea = document.querySelector("#cc-textarea");
 const ccResults = document.querySelector("#cc-results");
 
-ccTextarea.addEventListener("input", function () {
-    const ccIn = this.value;
-    const ccOut = ccResults;
+ccTextarea.addEventListener("input", ({ target: { value } }) => {
     ccResults.innerHTML = "";
-
-    customValidateCCs(ccIn, ccOut);
+    customValidateCCs(value);
 });
 
-function customValidateCCs(ccIn, ccOut) {
-    // this is sort of an extension of "validateCC"
-    // it loops through objects and logs to the console and screen
+function customValidateCCs(ccIn) {
+    // extension of "validateCC" loops through objects and logs to screen
     const ccObjs = parseNums(ccIn, ",");
 
-    ccResults.innerHTML = "";
-
-    for (ccObj in ccObjs) {
-        // ccOut.innerHTML += JSON.stringify(ccObjs[ccObj], null, "<br>");
-        // ccOut.innerHTML += "<br>";
-
+    for (const ccObj of ccObjs) {
         const panel = document.createElement("div");
         panel.className = "panel";
 
-        if (ccObjs[ccObj].isValid) {
+        if (ccObj.isValid) {
             panel.style.boxShadow = "5px 5px 5px #9f9";
-        }
-        else {
+        } else {
             panel.style.boxShadow = "5px 5px 5px #f99";
         }
 
-        panel.innerHTML = JSON.stringify(ccObjs[ccObj], null, "<br>");
+        panel.innerHTML = JSON.stringify(ccObj, null, "<br>");
         ccResults.appendChild(panel);
-
-        console.log("Valid CC? " + ccObjs[ccObj].isValid);
-        console.log("Card issuer: " + ccObjs[ccObj].issuer);
-        console.log("Valid Luhn Check? " + ccObjs[ccObj].isValidLuhn);
-        console.log("Length: " + ccObjs[ccObj].length);
-        console.log("\n");
     }
 }
 
