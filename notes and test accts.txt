@@ -117,7 +117,7 @@ Discover (sixteen  digits)
 640000-0000000003
 650000-0000000002
 
-DIners (fourteen digits)
+Diners Club (fourteen digits)
 300000-00000004
 360000-00000008
 380000-00000006
