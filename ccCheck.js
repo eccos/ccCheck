@@ -33,18 +33,29 @@ ccTextarea.addEventListener("input", ({ target: { value } }) => {
     });
 });
 
-function createPanelFromValidatedCreditCard(ccObj) {
-    const panel = document.createElement("div");
+function validateCC(ccNum) {
+    ccNum = ccNum.replace(/\D/g, ''); //Removes everything except digits
 
-    panel.className = "panel";
-    if (ccObj.isValid) {
-        panel.classList.add("valid-cc");
+    const ccObj = {
+        num: ccNum,
+        length: ccNum.length,
+        issuer: undefined,
+        isValidLuhn: false,
+        isValid: false
+    };
+
+    ccObj.issuer = getCardIssuer(ccObj.num);
+    ccObj.isValidLuhn = luhnCheck(ccObj.num);
+
+    if (ccObj.length < 13 || ccObj.length > 20) {
+    } else if (ccObj.issuer == undefined) {
+    } else if (ccObj.isValidLuhn == false) {
     } else {
-        panel.classList.add("invalid-cc");
+        // will only be valid if the above 3 fail conditions aren't met
+        ccObj.isValid = true;
     }
-    panel.innerHTML = JSON.stringify(ccObj, null, "<br>");
 
-    return panel;
+    return ccObj;
 }
 
 function getCardIssuer(ccNum) {
@@ -125,27 +136,16 @@ function luhnCheck(ccNum) {
     return isValid;
 }
 
-function validateCC(ccNum) {
-    ccNum = ccNum.replace(/\D/g, ''); //Removes everything except digits
+function createPanelFromValidatedCreditCard(ccObj) {
+    const panel = document.createElement("div");
 
-    const ccObj = {
-        num: ccNum,
-        length: ccNum.length,
-        issuer: undefined,
-        isValidLuhn: false,
-        isValid: false
-    };
-
-    ccObj.issuer = getCardIssuer(ccObj.num);
-    ccObj.isValidLuhn = luhnCheck(ccObj.num);
-
-    if (ccObj.length < 13 || ccObj.length > 20) {
-    } else if (ccObj.issuer == undefined) {
-    } else if (ccObj.isValidLuhn == false) {
+    panel.className = "panel";
+    if (ccObj.isValid) {
+        panel.classList.add("valid-cc");
     } else {
-        // will only be valid if the above 3 fail conditions aren't met
-        ccObj.isValid = true;
+        panel.classList.add("invalid-cc");
     }
+    panel.innerHTML = JSON.stringify(ccObj, null, "<br>");
 
-    return ccObj;
+    return panel;
 }
