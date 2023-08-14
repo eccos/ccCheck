@@ -8,7 +8,7 @@
 
 Requirement
 Credit Card numbers should be validated against the industry standard credit card check digit algorithm.
-NOTE: Diner and JCB Credit Cards will NOT be considered to be a valid form of payment.
+NOTE: Diners, JCB, & China Union Pay CCs will NOT be considered to be a valid form of payment at this time.
 
 
 Testing accounts
@@ -41,15 +41,15 @@ Discover
 
 Other Accounts
 
-AmEx (15 digits)
+AmEx (fifteen digits)
 340000-000000009,
 370000-000000002,
 
-Visa (13 or 16 digits)
+Visa (thirteen or sixteen digits)
 4000000-000006,
 4000000-000000002,
 
-MasterCard (16 digits)
+MasterCard (sixteen digits)
 510000-0000000008,
 520000-0000000007,
 530000-0000000006,
@@ -58,19 +58,19 @@ MasterCard (16 digits)
 222100-0000000009,
 272099-0000000007,
 
-Discover (16 digits)
+Discover (sixteen digits)
 600000-0000000007,
 640000-0000000003,
 650000-0000000002,
 
-Diners Club (14 digits)
+Diners Club (fourteen digits)
 300000-00000004,
 360000-00000008,
 380000-00000006,
 390000-00000005,
 
-JCB (16 digits)
-3500000000000000,
+JCB (sixteen digits)
+3500000000000009,
 
 China Union Pay (idk the length)
 620000,
