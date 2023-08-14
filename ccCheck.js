@@ -21,10 +21,29 @@ const ccResults = document.querySelector("#cc-results");
 
 ccTextarea.addEventListener("input", ({ target: { value } }) => {
     ccResults.innerHTML = "";
+
     const ccNums = value.split(",")
     let ccObjs = [];
+
+    // create cc objects and verify validity
     ccNums.forEach(ccNum => {
-        ccObjs.push(validateCC(ccNum));
+        // removes everything except digits
+        ccNum = ccNum.replace(/\D/g, '');
+
+        const ccObj = {
+            num: ccNum,
+            length: ccNum.length,
+            issuer: getCardIssuer(ccNum),
+            isValidLuhn: luhnCheck(ccNum),
+            isValid: false
+        };
+
+        // accepted cc lengths are between 13-20 inclusive
+        if (ccObj.length >= 13 && ccObj.length <= 20 && ccObj.issuer != undefined && ccObj.isValidLuhn == true) {
+            ccObj.isValid = true;
+        }
+
+        ccObjs.push(ccObj);
     });
 
     ccObjs.forEach(ccObj => {
@@ -32,31 +51,6 @@ ccTextarea.addEventListener("input", ({ target: { value } }) => {
         ccResults.appendChild(panel);
     });
 });
-
-function validateCC(ccNum) {
-    ccNum = ccNum.replace(/\D/g, ''); //Removes everything except digits
-
-    const ccObj = {
-        num: ccNum,
-        length: ccNum.length,
-        issuer: undefined,
-        isValidLuhn: false,
-        isValid: false
-    };
-
-    ccObj.issuer = getCardIssuer(ccObj.num);
-    ccObj.isValidLuhn = luhnCheck(ccObj.num);
-
-    if (ccObj.length < 13 || ccObj.length > 20) {
-    } else if (ccObj.issuer == undefined) {
-    } else if (ccObj.isValidLuhn == false) {
-    } else {
-        // will only be valid if the above 3 fail conditions aren't met
-        ccObj.isValid = true;
-    }
-
-    return ccObj;
-}
 
 function getCardIssuer(ccNum) {
     const ccNums = ccNum.split("");
