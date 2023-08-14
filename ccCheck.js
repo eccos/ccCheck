@@ -24,6 +24,7 @@ ccTextarea.addEventListener("input", ({ target: { value } }) => {
 
     const ccNums = value.split(",")
     let ccObjs = [];
+    const deniedIssuers = ["Diners", "China Union Pay", "JCB"];
 
     // create cc objects and verify validity
     ccNums.forEach(ccNum => {
@@ -39,7 +40,8 @@ ccTextarea.addEventListener("input", ({ target: { value } }) => {
         };
 
         // accepted cc lengths are between 13-20 inclusive
-        if (ccObj.length >= 13 && ccObj.length <= 20 && ccObj.issuer != undefined && ccObj.isValidLuhn == true) {
+        if (ccObj.issuer != undefined && !deniedIssuers.includes(ccObj.issuer) &&
+            ccObj.length >= 13 && ccObj.length <= 20 && ccObj.isValidLuhn == true) {
             ccObj.isValid = true;
         }
 
@@ -57,36 +59,25 @@ function getCardIssuer(ccNum) {
 
     if (ccNums[0] == 4 && (ccNums.length == 13 || ccNums.length == 16)) {
         return "Visa";
-    }
-    if ((ccNum.substring(0, 2) >= 51 && ccNum.substring(0, 2) <= 55) && ccNums.length == 16) {
+    } else if ((ccNum.substring(0, 2) >= 51 && ccNum.substring(0, 2) <= 55) && ccNums.length == 16) {
         return "MasterCard";
-    }
-    if ((ccNum.substring(0, 6) >= 222100 && ccNum.substring(0, 6) <= 272099) && ccNums.length == 16) {
+    } else if ((ccNum.substring(0, 6) >= 222100 && ccNum.substring(0, 6) <= 272099) && ccNums.length == 16) {
         return "MasterCard";
-    }
-    if (ccNums[0] == 3 && (ccNums[1] == 4 || ccNums[1] == 7) && ccNums.length == 15) {
+    } else if (ccNums[0] == 3 && (ccNums[1] == 4 || ccNums[1] == 7) && ccNums.length == 15) {
         return "AmEx";
-    }
-    // Diner cards aren't accepted
-    /*
-    if (arr[0] == 3 && (arr[1] == 0 || arr[1] == 6 || arr[1] == 8 || arr[1] == 9) && arr.length == 14){
-        return "Diners";
-    }
-    */
-    if (ccNums[0] == 6 && (ccNums[1] == 0 || ccNums[1] == 4 || ccNums[1] == 5) && ccNums.length == 16) {
+    } else if (ccNums[0] == 6 && (ccNums[1] == 0 || ccNums[1] == 4 || ccNums[1] == 5) && ccNums.length == 16) {
         return "Discover";
     }
-    // Below credit card formats aren't accepted
-    // Requirement <Start of Credit Card Payments –0070>
-    // Diner and JCB Credit Cards will NOT be considered to be a valid form of payment at this time.
-    /*
-    if (cc.substring(0, 2) == 62){
+    // Below CC formats aren't accepted
+    // Requirement <Start of CC Payments –0070>
+    // Diners, JCB, & China Union Pay CCs will NOT be considered to be a valid form of payment at this time.
+    else if (ccNums[0] == 3 && (ccNums[1] == 0 || ccNums[1] == 6 || ccNums[1] == 8 || ccNums[1] == 9) && ccNums.length == 14) {
+        return "Diners";
+    } else if (ccNum.substring(0, 2) == 62) {
         return "China Union Pay";
-    }
-    if (cc.substring(0, 2) == 35){
+    } else if (ccNum.substring(0, 2) == 35) {
         return "JCB";
     }
-    */
 
     return undefined;
 }
@@ -95,35 +86,28 @@ function luhnCheck(ccNum) {
     let isValid = false;
     // Double every second digit from right to left
     let pos = ccNum.length - 2; //index of the 2nd to last number
-    let arr = ccNum.split("");
+    let ccDigits = ccNum.split("");
 
-    console.log("Original split: " + arr);
-
+    console.log("Original split: " + ccDigits);
     for (pos; pos >= 0; pos -= 2) {
-        arr[pos] = arr[pos] * 2;
+        ccDigits[pos] = ccDigits[pos] * 2;
     }
-    console.log("Doubled alts: " + arr);
+    console.log("Doubled alts: " + ccDigits);
 
     // Add each individual digit
     // If doubling of a digit results in a 2-digit number, add the two digits to get a single-digit number.
-    ccNum = arr.join("");
-    arr = ccNum.split("");
-    pos = 0;
+    ccDigits = ccDigits.join("").split("");
     let sum = 0;
 
-    console.log("New split: " + arr);
-
-    for (pos; pos < ccNum.length; pos++) {
-        sum += Number(arr[pos]);
-    }
+    console.log("New split: " + ccDigits);
+    ccDigits.forEach(digit => sum += Number(digit))
     console.log("Sum: " + sum);
 
     // If sum modulo 10 is equal to 0, then the number is valid
-    sum = sum.toString().split("");
-    const lastDigit = sum[sum.length - 1];
-    console.log("Last digit is 0? " + lastDigit);
+    const mod10 = sum % 10;
+    console.log("Divisible by 10? Remainder: " + mod10);
 
-    if (lastDigit == 0) {
+    if (mod10 == 0) {
         isValid = true;
     }
 
