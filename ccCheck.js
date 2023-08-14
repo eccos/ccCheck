@@ -30,6 +30,7 @@ ccTextarea.addEventListener("input", ({ target: { value } }) => {
     ccNums.forEach(ccNum => {
         // removes everything except digits
         ccNum = ccNum.replace(/\D/g, '');
+        if (ccNum.length == 0) return;
 
         const ccObj = {
             num: ccNum,
