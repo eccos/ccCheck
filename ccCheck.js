@@ -21,16 +21,21 @@ const ccResults = document.querySelector("#cc-results");
 
 ccTextarea.addEventListener("input", ({ target: { value } }) => {
     ccResults.innerHTML = "";
-    const ccObjs = parseNums(value, ",");
+    const ccNums = value.split(",")
+    let ccObjs = [];
+    ccNums.forEach(ccNum => {
+        ccObjs.push(validateCC(ccNum));
+    });
+
     ccObjs.forEach(ccObj => {
-        const panel = createPanelOfCreditCardValidation(ccObj)
+        const panel = createPanelFromValidatedCreditCard(ccObj)
         ccResults.appendChild(panel);
     });
 });
 
-function createPanelOfCreditCardValidation(ccObj) {
+function createPanelFromValidatedCreditCard(ccObj) {
     const panel = document.createElement("div");
-    
+
     panel.className = "panel";
     if (ccObj.isValid) {
         panel.classList.add("valid-cc");
@@ -40,36 +45,6 @@ function createPanelOfCreditCardValidation(ccObj) {
     panel.innerHTML = JSON.stringify(ccObj, null, "<br>");
 
     return panel;
-}
-
-function parseNums(nums, separator) {
-    let ccNums = [];
-    let ccObjs = [];
-
-    const type = typeof nums;
-
-    switch (type) {
-        // if string is received, assume the numbers are separated and split them into an array
-        case "string":
-            if (separator === undefined) {
-                separator = ",";
-            }
-            ccNums = nums.split(separator);
-            break;
-        // if array is received, assume the numbers are already separated
-        case "array":
-            ccNums = nums;
-            break;
-        default:
-            console.log("Expecting a string of numbers separated by a delimiter, such as a comma, or an array of numbers");
-            return undefined;
-    }
-
-    for (let x = 0; x < ccNums.length; x++) {
-        ccObjs.push(validateCC(ccNums[x]));
-    }
-
-    return ccObjs;
 }
 
 function getCardIssuer(ccNum) {
